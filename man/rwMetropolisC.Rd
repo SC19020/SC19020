@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{rwMetropolisC}
 \alias{rwMetropolisC}
-\title{Use three inputs to generate random walk metropolis samples using Rcpp.}
+\title{random walk Metropolis sampler using Rcpp}
 \usage{
 rwMetropolisC(sigma, a, N)
 }
@@ -17,7 +17,7 @@ rwMetropolisC(sigma, a, N)
 a random sample of size \code{N}
 }
 \description{
-Use normal and uniform distribution to do this job
+Use three inputs to generate random walk metropolis samples with the proposal distribution of normal distribution
 }
 \examples{
 \dontrun{

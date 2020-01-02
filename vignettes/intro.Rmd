@@ -1,6 +1,6 @@
 ---
 title: "Introduction to SC19020"
-author: "Yao Suming"
+author: "19020"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -11,55 +11,57 @@ vignette: >
 
 ## Overview
 
-__SC19020__ is a simple R package developed to calculate the covariance and correlation coefficient of two set of samples for the 'Statistical Computing' course. Two functions are considered, namely, _covR_ (compute covariance of the given data) and _corrR_ (compute correlation coefficient of the given data).
+__SC19020__ is a simple R package developed to calculate two important concepts in the "Non-parametric statistic" course and "Statistic computing" course. Bootstrap is a very important resampling method in Statistic and will be of great help for us to study the properties of the given data especially when sample size is not large. The kernel density estimator(KDE) is a very important non-parametric method to estimate the true density function of a given set of data when we know little about the true distribution of the data, and with KDE, we can study many other relevant concepts of the given data. In this package, two functions are considered, namely, _bootstrapR_ (generate bootstraping samples of the given data) and _KDER_ (compute the kernel density estimator of the given data).
 
-## _covR_
-The source R code for _covR_ is as follows:
+## _bootstrapR_
+The source R code for _bootstrapR_ is as follows:
 ```{r,eval=FALSE}
-covR <- function(X, Y) {
-  n <- length(X)
-  cov <- sum((X-mean(X))*(Y-mean(Y)))/(n-1)
-  return(cov)
+bootstrapR <- function(X, n) {
+  m <- length(X)
+  out <- matrix(nrow = n, ncol = m)
+  for(i in 1:n){
+    out[i,] <- sample(X, m, replace = TRUE)
+  }
+  return(out)
 }
 ```
 
-In order to show how to use _covR_, we give an example.
+In order to show how to use _bootstapR_, we give an example.
 
 ```{r,eval=TRUE}
 library(SC19020)
-x <- c(1,2,5,3,6,4)
-y <- c(2,4,3,2,5,1)
-cov <- covR(x,y)
-cov
+X <- c(96,87,88,90,85)
+outer <- bootstrapR(X, 5)
+outer
 ```
 
-## _corrR_
-The source R code for _corrR_ is as follows:
+## _KDER_
+The source R code for _KDER_ is as follows:
 ```{r,eval=FALSE}
-corrR <- function(X, Y) {
+KDER <- function(X, h, x) {
   n <- length(X)
-  varX <- sum((X-mean(X))^2)/(n-1)
-  varY <- sum((Y-mean(Y))^2)/(n-1)
-  cov <- sum((X-mean(X))*(Y-mean(Y)))/(n-1)
-  corr <- cov/sqrt(varX*varY)
-  return(corr)
+  out <- (1/h)*mean(dnorm((x-X)/h))
+  return(out)
 }
 ```
 
-In order to show how to use _corrR_, we give an example.
-
+In order to show how to use _KDER_, we give an example.
 
 ```{r,eval=TRUE}
-x <- c(1,2,5,3,6,4)
-y <- c(2,4,3,2,5,1)
-corr <- corrR(x,y)
-corr
+X <- rnorm(100,1,2)
+x <- seq(-1, 1, by = 0.01)
+h <- 0.1
+y <- numeric(length(x))
+for(i in 1:length(x)){
+  y[i] <- KDER(X, h, x[i])
+}
+plot(x, y, type = "l")
 ```
 
 ### Homework of 20190920
 
 ## Question
-Use knitr to porduce at least 3 examples(texts,figures,tables)
+Use knitr to porduce at least 3 examples(texts, figures, tables)
 
 ## Answer
 1.figure
@@ -98,21 +100,21 @@ We derive the nonparametric maximum likelihood estimate, $\hat{F}$ say, of a lif
 
 2.code
 
-(1)σ取为1
+(1)take sigma as 1
 ```{r}
 sigma <- 1;n <- 100000
 u <- runif(n)
-x <- sqrt(-2*(sigma^2)*log(1-u)) # F(x) = 1-exp(-x^2/(2*σ^2)), x>=0,σ>0
+x <- sqrt(-2*(sigma^2)*log(1-u)) # F(x) = 1-exp(-x^2/(2*sigma^2)), x>=0,sigma>0
 hist(x,prob =TRUE, breaks=100,xlim=c(0,6),main=expression(f(x)==x*exp(-x^2/2)))
 y <- seq(0, 6, .01)
 lines(y, y/(sigma^2)*exp(-y^2/(2*(sigma^2))))
 ```
 
-(2)σ取为2
+(2)take sigma as 2
 ```{r}
 sigma <- 2; n <- 100000
 u <- runif(n)
-x <- sqrt(-2*(sigma^2)*log(1-u)) # F(x) = 1-exp(-x^2/(2*σ^2)), x>=0,σ>0
+x <- sqrt(-2*(sigma^2)*log(1-u)) # F(x) = 1-exp(-x^2/(2*sigma^2)), x>=0,sigma>0
 hist(x,prob =TRUE,breaks=100,xlim=c(0,8), main=expression(f(x)==x/4*exp(-x^2/8)))
 y <- seq(0, 8, 0.01)
 lines(y, y/(sigma^2)*exp(-y^2/(2*(sigma^2))))

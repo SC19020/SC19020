@@ -1,8 +1,8 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-//' @title Use three inputs to generate random walk metropolis samples using Rcpp.
-//' @description Use normal and uniform distribution to do this job
+//' @title random walk Metropolis sampler using Rcpp
+//' @description Use three inputs to generate random walk metropolis samples with the proposal distribution of normal distribution
 //' @param sigma the first predictor (numeirc)
 //' @param a the second predictor (numeric)
 //' @param N the third predictor (numeric)

@@ -1,16 +1,15 @@
 \name{SC19020-package}
 \alias{SC19020-package}
-\alias{SC19020}
 \docType{package}
 \title{
-  This package provides several functions for for computing the covariance and correlation coefficient of two set of samples.
+  This package is the final homework for Statistical Computing course consisting of two functions and all homework answers before.
 }
 \description{
-  R version of covariance and correlation coefficient function are provided in this package (\code{covR} and \code{corrR})
+  R version of bootstrap sampler and kernel density estimator are provided in this package (\code{bootstrapR} and \code{KDER}).
 }
 \author{
-Yao Suming
+19020
 
-Maintainer: Yao Suming <smyao@mail.ustc.edu.cn>
+Maintainer: 19020 <smyao@mail.ustc.edu.cn>
 }
 \keyword{ package }
